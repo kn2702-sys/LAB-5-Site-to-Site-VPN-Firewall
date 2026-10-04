@@ -9,11 +9,14 @@ mode, so you practice diagnosing VPNs the way a NOC does.
 > traffic (selectors), NAT exemption, tunnel establishment, firewall policy
 > behavior. The concepts map directly to Palo Alto, Fortinet and Juniper;
 > see [docs/VPN-CONCEPTS.md](docs/VPN-CONCEPTS.md).
+
 >
 > **Résumé line:** *Built and troubleshot a site-to-site VPN lab covering
 > routing, tunnel establishment and firewall policy behavior.*
 >
 > **Don't claim:** *"I deployed enterprise IPsec VPN."*
+
+**Lab series:** [Lab 1](https://github.com/kn2702-sys/enterprise-vlan-lab) · [Lab 2](https://github.com/kn2702-sys/dhcp-dns-failure-lab) · [Lab 3](https://github.com/kn2702-sys/LAB-3-Multi-Router-OSPF-Network) · [Lab 4](https://github.com/kn2702-sys/LAB-4-ACL-NAT-Internet-Edge) · **Lab 5** · [Lab 6](https://github.com/kn2702-sys/LAB-6-Wireshark-NOC-Troubleshooting) · [Lab 7](https://github.com/kn2702-sys/LAB-7-NOC-Incident-Simulation) · [Lab 8](https://github.com/kn2702-sys/LAB-8-AWS-VPC-Networking)
 
 ## Skills demonstrated
 
