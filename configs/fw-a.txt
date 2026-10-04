@@ -1,0 +1,65 @@
+!
+! Lab 5 - FW-A : site-to-site IPsec VPN gateway + edge firewall (Office A)
+! Inside : 10.10.10.0/24 | Outside : 203.0.113.1/30 | Peer : 198.51.100.2
+!
+hostname FW-A
+!
+no ip domain-lookup
+!
+interface GigabitEthernet0/0/0
+ description *** INSIDE - Office A 10.10.10.0/24 ***
+ ip address 10.10.10.1 255.255.255.0
+ ip nat inside
+ ip access-group 110 in
+ no shutdown
+!
+interface GigabitEthernet0/0/1
+ description *** OUTSIDE - Internet (to ISP) ***
+ ip address 203.0.113.1 255.255.255.252
+ ip nat outside
+ crypto map VPN-MAP
+ no shutdown
+!
+interface GigabitEthernet0/0/2
+ description *** UNUSED ***
+ shutdown
+!
+ip route 0.0.0.0 0.0.0.0 203.0.113.2
+!
+! --- NAT with exemption: VPN interesting traffic is never translated ---
+access-list 101 deny ip 10.10.10.0 0.0.0.255 10.20.20.0 0.0.0.255
+access-list 101 permit ip 10.10.10.0 0.0.0.255 any
+ip nat inside source list 101 interface GigabitEthernet0/0/1 overload
+!
+! --- IKE Phase 1 ---
+crypto isakmp policy 10
+ encr aes
+ hash sha
+ authentication pre-share
+ group 2
+ lifetime 86400
+crypto isakmp key C1sco12345 address 198.51.100.2
+!
+! --- IPsec Phase 2 ---
+crypto ipsec transform-set ESP-AES-SHA esp-aes esp-sha-hmac
+ mode tunnel
+!
+crypto map VPN-MAP 10 ipsec-isakmp
+ description *** Site-to-site VPN to Office B ***
+ set peer 198.51.100.2
+ set transform-set ESP-AES-SHA
+ set pfs group2
+ match address 100
+!
+! --- Interesting traffic = the VPN selectors (proxy identities) ---
+access-list 100 permit ip 10.10.10.0 0.0.0.255 10.20.20.0 0.0.0.255
+!
+! --- Firewall policy: edge ACL inbound on the inside interface ---
+access-list 110 permit ip 10.10.10.0 0.0.0.255 10.20.20.0 0.0.0.255
+access-list 110 permit tcp 10.10.10.0 0.0.0.255 any eq 80
+access-list 110 permit tcp 10.10.10.0 0.0.0.255 any eq 443
+access-list 110 permit udp 10.10.10.0 0.0.0.255 any eq 53
+access-list 110 permit icmp 10.10.10.0 0.0.0.255 any
+access-list 110 deny ip any any
+!
+end

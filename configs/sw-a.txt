@@ -1,0 +1,20 @@
+!
+! Lab 5 - Office A LAN switch (plain L2)
+!
+hostname SW-A
+!
+interface FastEthernet0/1
+ description *** PC-A1 ***
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/2
+ description *** PC-A2 ***
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/24
+ description *** Uplink to FW-A ***
+ switchport mode access
+!
+end
