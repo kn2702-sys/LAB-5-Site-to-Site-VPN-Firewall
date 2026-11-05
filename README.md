@@ -87,6 +87,10 @@ VPN traffic first, then web/DNS/ICMP egress, then `deny ip any any`.
 > Production would use IKEv2, AES-256-GCM, SHA-256, DH14+. The concepts
 > are identical — see [docs/VPN-CONCEPTS.md](docs/VPN-CONCEPTS.md).
 
+> **About the PSK:** the ISAKMP pre-shared key in the configs
+> (`C1sco12345`) is the standard Cisco training value, included for lab
+> use only — it is not a real credential and must never be reused as one.
+
 ## Repository contents
 
 ```
